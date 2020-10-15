@@ -13,3 +13,16 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Build of go mod
+*.sum
+
+# Configuration files
+*.yml
+
+# Distribution folder
+/dist/*
+! /dist/tmp
+
+# For Vscode bug
+/go.mod
