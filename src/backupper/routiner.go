@@ -72,7 +72,7 @@ func (this *Routiner) do() {
 		timeStr := time.Now().Format("20060102150405")
 
 		filename := fmt.Sprintf("%s%s.sql", val.Databasename, timeStr)
-		filepath := fmt.Sprintf("./tmp/%s", val.Databasename, filename)
+		filepath := fmt.Sprintf("./tmp/%s", filename)
 
 		objectpath := fmt.Sprintf("database/%s", val.Databasename)
 		objectName := fmt.Sprintf("%s/%s", objectpath, filename)
