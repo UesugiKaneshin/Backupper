@@ -10,4 +10,5 @@ nohup ./backupper &
 
 ## Git
 git log --graph --pretty=oneline --abbrev-commit
-git merge --no-ff -m "merge with no-ff" dev
+git merge --no-ff -m "" feature
+git merge --squash develop
