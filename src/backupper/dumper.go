@@ -1,7 +1,8 @@
 package backupper
 
 import (
-	"io/ioutil"
+	"bufio"
+	"io"
 	"log"
 	"os"
 	"os/exec"
@@ -41,7 +42,7 @@ func (this *Dumper) Download() bool {
 	databasename := this.databasename
 	filepath := this.filepath
 
-	cmd := exec.Command("mysqldump", "--opt", host, port, user, password, databasename)
+	cmd := exec.Command("mysqldump", "--opt", "--quick", host, port, user, password, databasename)
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -56,18 +57,33 @@ func (this *Dumper) Download() bool {
 	} else {
 	}
 
-	bytes, err := ioutil.ReadAll(stdout)
-	if err != nil {
+	var writer *bufio.Writer
+	if file, err := os.OpenFile(filepath, os.O_CREATE|os.O_RDWR, os.ModePerm); err != nil {
 		result = false
 		log.Fatal(err)
 	} else {
+		writer = bufio.NewWriter(file)
+
+		defer file.Close()
 	}
 
-	err = ioutil.WriteFile(filepath, bytes, 0644)
-	if err != nil {
-		result = false
-		log.Fatal(err)
-	} else {
+	reader := bufio.NewReader(stdout)
+	for {
+		bytes, _, err := reader.ReadLine()
+		if err == io.EOF {
+			cmd.Process.Kill()
+
+			break
+		} else if err != nil {
+			result = false
+			log.Fatal(err)
+		} else {
+			if _, err := writer.Write(bytes); err != nil {
+				result = false
+				log.Fatal(err)
+			} else {
+			}
+		}
 	}
 
 	return result

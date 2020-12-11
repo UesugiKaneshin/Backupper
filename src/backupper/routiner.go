@@ -82,6 +82,7 @@ func (this *Routiner) do() {
 
 		this.uploader.Upload(objectName, filepath)
 		list := this.uploader.Retrieve(objectpath)
+
 		this.uploader.Delete(list, this.number)
 
 		this.dumper.DeleteFile()
