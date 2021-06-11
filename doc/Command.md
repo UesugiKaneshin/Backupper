@@ -6,6 +6,7 @@ cd ~/e/Backupper/src/ && go build -o ../dist/backupper main.go
 ## Linux
 netstat -tlnp | grep 'LISTEN' | grep -i '10000'
 netstat -tlnp
+ps -ef | grep backupper
 nohup ./backupper &
 
 ## Git
